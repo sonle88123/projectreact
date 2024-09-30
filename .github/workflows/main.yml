@@ -1,9 +1,9 @@
-name: 🚀 Deploy on Push to Main
+name: 🚀 Deploy on push to main
 
-on:
+on: 
   push:
-    branches:
-      - main
+    branches:    
+      - main 
 
 jobs:
   web-deploy:
@@ -11,28 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v2
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+      
+    - name: 🔧 Install dependencies and build
+      run: |
+        npm install
+        npm run build
 
-      - name: 🔧 Install dependencies and build
-        run: |
-          npm install
-          npm run build
+    - name: List output files
+      run: find build/ -print
 
-      # Step 3: List build output files (for debugging purposes)
-      - name: 📝 List output files
-        run: find build/ -print
-
-      # Step 4: Sync the built files to the server using FTP
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
-        with:
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
           server: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           local-dir: build/
           exclude: |
-            /.git/
-            /.git*
-            /node_modules/
-            /.
+            **/.git**
+            **/.git*/**
+            **/node_modules/**
+            **/.**
