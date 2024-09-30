@@ -1,9 +1,9 @@
-name: 🚀 Deploy on Push to Main
+name: 🚀 Deploy on push to main
 
-on:
+on: 
   push:
-    branches:
-      - main
+    branches:    
+      - master 
 
 jobs:
   web-deploy:
@@ -11,39 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the latest code
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v2
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+      
+    - name: 🔧 Install dependencies and build
+      run: |
+        npm install
+        npm run build
 
-      # Uncomment the following section if you need to set environment variables
-      # - name: 📝 Set environment variables
-      #   run: |
-      #     echo "REACT_APP_API_URL=${{ secrets.API }}" >> .env
-      #     echo "REACT_APP_IMG_URL=${{ secrets.IMG }}" >> .env
-      #     echo "REACT_APP_OPEN_AI_KEY=${{ secrets.APIKEY }}" >> .env
-      #     echo "REACT_APP_GG_KEY=${{ secrets.GOOGLE }}" >> .env
+    - name: List output files
+      run: find build/ -print
 
-      # Step 2: Install dependencies and build the project
-      - name: 🔧 Install dependencies and build
-        run: |
-          npm install
-          npm run build
-
-      # Step 3: List build output files (for debugging purposes)
-      - name: 📝 List output files
-        run: find build/ -print
-
-      # Step 4: Sync the built files to the server using FTP
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
-        with:
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
           server: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           local-dir: build/
           exclude: |
-            /.git/
-            /.git*
-            /node_modules/
-            /.
-
+            **/.git**
+            **/.git*/**
+            **/node_modules/**
+            **/.**
