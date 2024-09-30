@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-         React đầu tiên
+         React version 2
         </p>
         <a
           className="App-link"
