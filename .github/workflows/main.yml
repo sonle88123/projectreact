@@ -11,19 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the latest code
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
 
-      # Uncomment the following section if you need to set environment variables
-      # - name: 📝 Set environment variables
-      #   run: |
-      #     echo "REACT_APP_API_URL=${{ secrets.API }}" >> .env
-      #     echo "REACT_APP_IMG_URL=${{ secrets.IMG }}" >> .env
-      #     echo "REACT_APP_OPEN_AI_KEY=${{ secrets.APIKEY }}" >> .env
-      #     echo "REACT_APP_GG_KEY=${{ secrets.GOOGLE }}" >> .env
-
-      # Step 2: Install dependencies and build the project
       - name: 🔧 Install dependencies and build
         run: |
           npm install
